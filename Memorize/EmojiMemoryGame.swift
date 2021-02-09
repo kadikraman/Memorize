@@ -13,8 +13,8 @@ func createCardContent(pairIndex: Int) -> String {
     return "😄"
 }
 
-class EmojiMemoryGame {
-    private(set) var model: MemoryGame<String> = createMemoryGame()
+class EmojiMemoryGame: ObservableObject {
+    @Published private(set) var model: MemoryGame<String> = createMemoryGame()
     
     static func createMemoryGame() -> MemoryGame<String> {
         let emojis = ["👻", "🎃", "🕷", "🧛‍♀️", "😈", "💚", "🌶", "🌼", "🏆", "💥", "🇪🇪", "🥳"].shuffled()
@@ -31,6 +31,7 @@ class EmojiMemoryGame {
     
     // MARK: Intent(s)
     func choose(card: MemoryGame<String>.Card) {
+        objectWillChange.send()
         model.choose(card: card)
     }
 }
