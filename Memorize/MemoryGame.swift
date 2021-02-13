@@ -9,14 +9,16 @@
 
 import Foundation
 
-struct MemoryGame<CardContent> where CardContent: Equatable {
+struct MemoryGame<CardContent, Element> where CardContent: Equatable {
     var cards: Array<Card>
+    var theme: Element
+    var score: Int = 0
     
     var indexOfFaceUpCard: Int? {
         get { cards.indices.filter { cards[$0].isFaceUp }.only }
         set {
             for index in cards.indices {
-                cards[index].isFaceUp = !cards[index].isFaceUp
+                cards[index].isFaceUp = index == newValue
             }
         }
     }
@@ -27,6 +29,18 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                     cards[chosenIndex].isMatched = true;
                     cards[potentialMatchIndex].isMatched = true
+                    score += 2
+                    cards[chosenIndex].isSeen = true
+                    cards[potentialMatchIndex].isSeen = true
+                } else {
+                    if (cards[chosenIndex].isSeen == true) {
+                        score -= 1
+                    }
+                    if (cards[potentialMatchIndex].isSeen == true) {
+                        score -= 1
+                    }
+                    cards[chosenIndex].isSeen = true
+                    cards[potentialMatchIndex].isSeen = true
                 }
                 cards[chosenIndex].isFaceUp = true
             } else {
@@ -35,7 +49,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
     }
     
-    init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
+    init(numberOfPairsOfCards: Int, theme: Element, cardContentFactory: (Int) -> CardContent) {
+        self.theme = theme
         cards = Array<Card>()
         for pairIndex in 0..<numberOfPairsOfCards {
             let content = cardContentFactory(pairIndex)
@@ -48,6 +63,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     struct Card: Identifiable {
         var isFaceUp: Bool = false
         var isMatched: Bool = false
+        var isSeen: Bool = false
         var content: CardContent
         var id: Int
     }

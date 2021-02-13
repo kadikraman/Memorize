@@ -11,12 +11,19 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     
     var body: some View {
-        Grid(viewModel.cards) { card in
-            CardView(card: card).onTapGesture() {
-                viewModel.choose(card: card)
-            }.padding(cardPadding)
+        Group {
+            Text(viewModel.model.theme.name).font(.largeTitle).bold().padding(.top, 20)
+            Text("Score: \(viewModel.model.score)").bold()
+            Grid(viewModel.cards) { card in
+                CardView(card: card).onTapGesture() {
+                    viewModel.choose(card: card)
+                }.padding(cardPadding)
+            }
+            .foregroundColor(viewModel.model.theme.color)
+            Button("New Game"){
+                viewModel.newGame()
+            }.padding(.bottom, 20)
         }
-        .foregroundColor(.orange)
     }
     
     // MARK: Drawing Constants
@@ -25,7 +32,7 @@ struct EmojiMemoryGameView: View {
 }
 
 struct CardView: View {
-    var card: MemoryGame<String>.Card
+    var card: MemoryGame<String, Theme>.Card
     
     var body: some View {
         GeometryReader() { geometry in

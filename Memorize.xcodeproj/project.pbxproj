@@ -66,14 +66,14 @@
 			children = (
 				41435F8C25D012B7006E2E7C /* MemorizeApp.swift */,
 				41435F8E25D012B7006E2E7C /* EmojiMemoryGameView.swift */,
+				41BDC4EC25D47802001A21F6 /* Grid.swift */,
+				41BDC4F425D47CFD001A21F6 /* GridLayout.swift */,
 				41435F9C25D1C385006E2E7C /* MemoryGame.swift */,
 				41435F9F25D1C517006E2E7C /* EmojiMemoryGame.swift */,
-				41BDC4EC25D47802001A21F6 /* Grid.swift */,
-				41435F9025D012B9006E2E7C /* Assets.xcassets */,
-				41435F9525D012B9006E2E7C /* Info.plist */,
-				41BDC4F425D47CFD001A21F6 /* GridLayout.swift */,
 				41BDC4F725D4821A001A21F6 /* Array+Identifiable.swift */,
 				41BDC4FB25D84B6A001A21F6 /* Array+Only.swift */,
+				41435F9025D012B9006E2E7C /* Assets.xcassets */,
+				41435F9525D012B9006E2E7C /* Info.plist */,
 				41435F9225D012B9006E2E7C /* Preview Content */,
 			);
 			path = Memorize;
