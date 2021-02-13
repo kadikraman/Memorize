@@ -16,39 +16,35 @@ struct Theme {
     let color: Color
 }
 
-let themes = [
-    Theme(name: "Halloween", emoji: ["🧛‍♀️", "👻", "🎃", "😈", "☠️", "⚰️"], numberOfPairs: 4, color: Color.orange),
-    Theme(name: "Fruit", emoji: ["🍏", "🍎", "🍒", "🍍", "🍐"], numberOfPairs: 5, color: Color.green),
-    Theme(name: "Emoji", emoji: ["😄", "😂", "🙃", "😍", "😭", "😋", "😓"], numberOfPairs: 6, color: Color.yellow),
-    Theme(name: "Flags", emoji: ["🇪🇪", "🇬🇧", "🇺🇸", "🇩🇪", "🇨🇦", "🇫🇮"], numberOfPairs: 5, color: Color.purple),
-    Theme(name: "Jobs", emoji: ["👩‍⚕️", "👩‍🎨", "👩‍🎤", "👮‍♀️", "👷‍♀️", "👩‍🌾", "👩‍🏫", "👩‍💻"], numberOfPairs: 7, color: Color.gray),
-    Theme(name: "Shoes", emoji: ["🥿", "👠", "👡", "👟", "🥾"], numberOfPairs: 4, color: Color.blue)
-]
-
 class EmojiMemoryGame: ObservableObject {
-    @Published private(set) var model: MemoryGame<String, Theme> = createMemoryGame()
-
-    static func createMemoryGame() -> MemoryGame<String, Theme> {
-        let theme = themes.randomElement()!
-        return MemoryGame<String, Theme>(numberOfPairsOfCards: theme.numberOfPairs, theme: theme){ pairIndex in
+    @Published private(set) var model: MemoryGame<String>
+    @Published private(set) var theme: Theme
+    private var themes: [Theme]
+    
+    init(themes: [Theme]) {
+        self.themes = themes
+        let theme = self.themes.randomElement()!
+        self.theme = theme
+        self.model = MemoryGame<String>(numberOfPairsOfCards: theme.numberOfPairs){ pairIndex in
             theme.emoji[pairIndex]
         }
     }
-    
+
     // MARK: Access to the model
-    var cards: Array<MemoryGame<String, Theme>.Card> {
+    var cards: Array<MemoryGame<String>.Card> {
         model.cards
     }
     
     // MARK: Intent(s)
-    func choose(card: MemoryGame<String, Theme>.Card) {
+    func choose(card: MemoryGame<String>.Card) {
         objectWillChange.send()
         model.choose(card: card)
     }
     
     func newGame() {
         let theme = themes.randomElement()!
-        model = MemoryGame<String, Theme>(numberOfPairsOfCards: theme.numberOfPairs, theme: theme){ pairIndex in
+        self.theme = theme
+        model = MemoryGame<String>(numberOfPairsOfCards: theme.numberOfPairs){ pairIndex in
             theme.emoji[pairIndex]
         }
     }

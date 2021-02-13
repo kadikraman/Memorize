@@ -12,14 +12,14 @@ struct EmojiMemoryGameView: View {
     
     var body: some View {
         Group {
-            Text(viewModel.model.theme.name).font(.largeTitle).bold().padding(.top, 20)
+            Text(viewModel.theme.name).font(.largeTitle).bold().padding(.top, 20)
             Text("Score: \(viewModel.model.score)").bold()
             Grid(viewModel.cards) { card in
                 CardView(card: card).onTapGesture() {
                     viewModel.choose(card: card)
                 }.padding(cardPadding)
             }
-            .foregroundColor(viewModel.model.theme.color)
+            .foregroundColor(viewModel.theme.color)
             Button("New Game"){
                 viewModel.newGame()
             }.padding(.bottom, 20)
@@ -32,7 +32,7 @@ struct EmojiMemoryGameView: View {
 }
 
 struct CardView: View {
-    var card: MemoryGame<String, Theme>.Card
+    var card: MemoryGame<String>.Card
     
     var body: some View {
         GeometryReader() { geometry in
@@ -64,7 +64,8 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let game = EmojiMemoryGame()
+        let themes = [Theme(name: "Fruit", emoji: ["🍏", "🍎", "🍒", "🍍", "🍐"], numberOfPairs: 5, color: Color.green)]
+        let game = EmojiMemoryGame(themes: themes)
         EmojiMemoryGameView(viewModel: game)
     }
 }
