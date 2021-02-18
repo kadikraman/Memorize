@@ -23,9 +23,7 @@ struct EmojiMemoryGameView: View {
             }
             .foregroundColor(viewModel.theme.color)
             Button("New Game"){
-                withAnimation(.easeInOut) {
-                    viewModel.newGame()
-                }
+                viewModel.newGame()
             }.padding(.bottom, 20)
         }
     }
@@ -64,7 +62,7 @@ struct CardView: View {
                     }
                     .padding(5)
                     .opacity(0.4)
-                    Text(card.content).rotationEffect(Angle.degrees(card.isMatched ? 360 : 0)).animation(Animation.linear.repeatForever(autoreverses: false))
+                    Text(card.content).rotationEffect(Angle.degrees(card.isMatched ? 720 : 0)).animation(Animation.linear.delay(0.5))
                 }
                 .cardify(isFaceUp: card.isFaceUp)
                 .font(Font.system(size: fontSize(for: geometry.size)))
